@@ -1,4 +1,4 @@
-require './person'
+require_relative 'person'
 attr_reader :specialization
 
 # The is the teacher class, which represents teacher information
