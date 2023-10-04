@@ -1,10 +1,11 @@
-require './person'
-attr_reader :specialization
+require_relative 'person'
 
 # The is the teacher class, which represents teacher information
 class Teacher < Person
+  attr_reader :specialization
+
   def initialize(specialization:, name: 'Unknown', age: 0)
-    super(name, age)
+    super(name: name, age: age)
     @specialization = specialization
   end
 
