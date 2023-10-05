@@ -1,7 +1,7 @@
 require_relative 'student'
 
 class Classroom
-  attr_accessor :label, :students
+  attr_reader :label, :students
 
   def initialize(label)
     @label = label
