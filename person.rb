@@ -20,6 +20,11 @@ class Person < Nameable
     @name
   end
 
+  # has-many relationship with Rental
+  def rentals
+    Rental.all.select { |rental| rental.person == self }
+  end
+
   private
 
   def of_age?
