@@ -1,38 +1,46 @@
-# main.rb
+require_relative 'app'
 
-# Require the decorator classes
-require_relative 'nameable'
-require_relative 'base_decorator'
-require_relative 'capitalize_decorator'
-require_relative 'trimmer_decorator'
+class Main
+  def initialize(app)
+    @app = app
+  end
 
-# Require other classes
-require_relative 'person'
-require_relative 'student'
-require_relative 'teacher'
+  def run
+    actions = [
+      -> { @app.list_books }, -> { @app.list_people }, -> { @app.create_person }, -> { @app.create_book },
+      -> { @app.create_rental }, -> { @app.list_rentals_for_person }
+    ]
+    loop do
+      display_menu
+      choice = gets.chomp.to_i
+      case choice
+      when 1..6
+        actions[choice - 1].call
+      when 7
+        puts 'Exiting the app. Goodbye!'
+        break
+      else
+        puts 'Invalid choice. Please try again.'
+      end
+    end
+  rescue StandardError => e
+    puts "An error occurred: #{e.message}"
+    run
+  end
 
-# Create instances of Person, Student, and Teacher
-person = Person.new(name: 'John', age: 25, parent_permission: false)
-student = Student.new(classroom: 'Math', name: 'Alice', age: 17, parent_permission: true)
-student_b = Student.new(classroom: 'Math', name: 'Erick', age: 17, parent_permission: false)
-student_b.name = 'Arnold'
-teacher = Teacher.new(specialization: 'History', name: 'Mr. Smith', age: 30)
+  def display_menu
+    puts 'Options:'
+    puts '1. List all books'
+    puts '2. List all people'
+    puts '3. Create a person'
+    puts '4. Create a book'
+    puts '5. Create a rental'
+    puts '6. List rentals for a person'
+    puts '7. Quit'
+    print 'Enter your choice: '
+  end
+end
 
-# Test can_use_services? method
-puts "#{person.name} can use services: #{person.can_use_services?}" # Should be true (age >= 18)
-puts "#{student.name} can use services: #{student.can_use_services?}" # Should be true (parent permission)
-puts "#{student_b.name} can use services: #{student_b.can_use_services?}" # Should be false (parent permission)
-puts "#{teacher.name} can use services: #{teacher.can_use_services?}" # Should be true (overridden method)
-
-# Test play_hooky? method
-puts "#{student.name} play_hooky: #{student.play_hook}" # Should output "¯(ツ)/¯"
-
-# Test the decorators
-person = Person.new(name: 'maximilianus', age: 22)
-puts "Original Name: #{person.correct_name}"
-
-capitalized_person = CapitalizeDecorator.new(person)
-puts "Capitalized Name: #{capitalized_person.correct_name}"
-
-capitalized_trimmed_person = TrimmerDecorator.new(capitalized_person)
-puts "Capitalized and Trimmed Name: #{capitalized_trimmed_person.correct_name}"
+puts 'Welcome to my school library!'
+main = Main.new(App.new)
+main.run
