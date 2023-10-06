@@ -1,15 +1,16 @@
 require_relative 'nameable'
 
 class Person < Nameable
-  attr_accessor :name, :age
-  attr_reader :id
+  attr_accessor :id, :rentals
+  attr_reader :name, :age
 
   def initialize(name: 'Unknown', age: 0, parent_permission: true)
-    super()
     @id = generate_id
     @name = name
     @age = age
     @parent_permission = parent_permission
+    @rentals = []
+    super()
   end
 
   def can_use_services?
@@ -21,8 +22,9 @@ class Person < Nameable
   end
 
   # has-many relationship with Rental
-  def rentals
-    Rental.all.select { |rental| rental.person == self }
+  def add_rental(rental)
+    existing_rental = @rentals.find { |r| r.date == rental.date }
+    @rentals << rental unless existing_rental
   end
 
   private
@@ -32,6 +34,6 @@ class Person < Nameable
   end
 
   def generate_id
-    rand(1000..9999)
+    rand(1..200)
   end
 end

@@ -41,6 +41,6 @@ class Main
   end
 end
 
-puts 'Welcome to the Library Management System!'
+puts 'Welcome to my school library!'
 main = Main.new(App.new)
 main.run

@@ -20,6 +20,7 @@ class App
       puts "#{book.id} - #{book.title} by #{book.author}"
     end
   end
+  
 
   def list_people
     puts "List of People (#{@people.length}):"
@@ -115,8 +116,12 @@ class App
 
     puts "Rentals for #{person.name}:"
     rentals = @rentals.select { |r| r.person == person }
-    rentals.each do |rental|
-      puts "#{rental.book.title} by #{rental.book.author}, rented on #{rental.date}"
+    if rentals.empty?
+      puts "No rentals found for #{person.name}."
+    else
+      rentals.each do |rental|
+        puts "#{rental.book.title} by #{rental.book.author}, rented on #{rental.date}"
+      end
     end
   end
 end
