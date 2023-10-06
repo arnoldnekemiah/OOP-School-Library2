@@ -20,7 +20,6 @@ class App
       puts "#{book.id} - #{book.title} by #{book.author}"
     end
   end
-  
 
   def list_people
     puts "List of People (#{@people.length}):"
