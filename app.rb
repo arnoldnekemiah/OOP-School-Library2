@@ -15,17 +15,21 @@ class App
   end
 
   def list_books
+    puts '************************************************************'
     puts "List of Books (#{@books.length}):"
     @books.each do |book|
       puts "#{book.id} - #{book.title} by #{book.author}"
     end
+    puts '************************************************************'
   end
 
   def list_people
+    puts '************************************************************'
     puts "List of People (#{@people.length}):"
     @people.each do |person|
       puts "#{person.id} - #{person.name} (#{person.is_a?(Student) ? 'Student' : 'Teacher'})"
     end
+    puts '************************************************************'
   end
 
   def create_person
@@ -60,7 +64,7 @@ class App
     print 'Parent permission (y for true or n for false): '
     parent_permission = gets.chomp
 
-    Student.new(classroom, age, name: name, parent_permission: parent_permission.downcase == 'y')
+    Student.new(classroom: classroom, age: age, name: name, parent_permission: parent_permission.downcase == 'y')
   end
 
   def create_teacher()
@@ -74,7 +78,7 @@ class App
     age = gets.chomp.to_i
     return nil unless age.positive?
 
-    Teacher.new(specialization, age, name: name)
+    Teacher.new(specialization: specialization, age: age, name: name)
   end
 
   def create_book
@@ -102,7 +106,7 @@ class App
     print 'Enter the rental date (YYYY-MM-DD): '
     date = gets.chomp
 
-    rental = Rental.new(date, person, book)
+    rental = Rental.new(date, book, person)
     @rentals << rental
     puts "Rental created for #{person.name}: #{book.title} on #{date}."
   end
