@@ -6,29 +6,49 @@ class Main
   end
 
   def run
-    actions = [
-      -> { @app.list_books }, -> { @app.list_people }, -> { @app.create_person }, -> { @app.create_book },
-      -> { @app.create_rental }, -> { @app.list_rentals_for_person }
-    ]
+    display_welcome_message
+
     loop do
       display_menu
       choice = gets.chomp.to_i
+
       case choice
       when 1..6
-        actions[choice - 1].call
+        execute_action(choice)
       when 7
-        puts 'Exiting the app. Goodbye!'
+        exit_app
         break
       else
-        puts 'Invalid choice. Please try again.'
+        display_invalid_choice_message
       end
     end
   rescue StandardError => e
-    puts "An error occurred: #{e.message}"
+    display_error_message(e)
     run
   end
 
+  private
+
+  def display_welcome_message
+    puts 'Welcome to my school library!'
+  end
+
+  def execute_action(choice)
+    actions = [
+      -> { @app.list_books }, -> { @app.list_people }, -> { @app.create_person },
+      -> { @app.create_book }, -> { @app.create_rental }, -> { @app.list_rentals_for_person }
+    ]
+    actions[choice - 1].call
+  end
+
+  def exit_app
+    puts '************************************************************'
+    puts 'Exiting the app. Goodbye!'
+    puts '************************************************************'
+  end
+
   def display_menu
+    puts '-----------------------------------------------'
     puts 'Options:'
     puts '1. List all books'
     puts '2. List all people'
@@ -38,6 +58,18 @@ class Main
     puts '6. List rentals for a person'
     puts '7. Quit'
     print 'Enter your choice: '
+  end
+
+  def display_invalid_choice_message
+    puts '************************************************************'
+    puts 'Invalid choice. Please try again.'
+    puts '************************************************************'
+  end
+
+  def display_error_message(error)
+    puts '************************************************************'
+    puts "An error occurred: #{error.message}"
+    puts '************************************************************'
   end
 end
 
