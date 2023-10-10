@@ -50,48 +50,6 @@ class App
     end
   end
 
-  def create_student()
-    print 'Name: '
-    name = gets.chomp
-    print 'Classroom: '
-    classroom = gets.chomp.to_str
-    return nil unless classroom.length >= 1
-
-    print 'Age (numeric): '
-    age = gets.chomp.to_i
-    return nil unless age.positive?
-
-    print 'Parent permission (y for true or n for false): '
-    parent_permission = gets.chomp
-
-    Student.new(classroom: classroom, age: age, name: name, parent_permission: parent_permission.downcase == 'y')
-  end
-
-  def create_teacher()
-    print 'Name: '
-    name = gets.chomp
-    print 'Specialization: '
-    specialization = gets.chomp
-    return nil unless specialization.length >= 1
-
-    print 'Age (numeric): '
-    age = gets.chomp.to_i
-    return nil unless age.positive?
-
-    Teacher.new(specialization: specialization, age: age, name: name)
-  end
-
-  def create_book
-    print 'Enter the title of the book: '
-    title = gets.chomp
-    print 'Enter the author of the book: '
-    author = gets.chomp
-
-    book = Book.new(title, author)
-    @books << book
-    puts "Book '#{book.title}' by #{book.author} created."
-  end
-
   def create_rental
     list_people
     print 'Enter the ID of the person who is renting a book: '
