@@ -7,9 +7,9 @@ class Rental
     @book = book
     @person = person
 
-    # Add the rental to the book's rentals and person's rentals
-    book.add_rental << self
-    person.add_rental << self
+    # Use the add_rental method to establish the relationship
+    book.add_rental(self)
+    person.add_rental(self)
   end
 
   # Add a class-level array to store all rentals
