@@ -1,4 +1,6 @@
 <a name="readme-top"></a>
+# 📖 School Library <a name="about-project"></a>
+  ![image](https://github.com/arnoldnekemiah/OOP-School-Library2/assets/42886828/426d2e3b-9002-4ca6-97ce-9722c380bf5a)
 
 # 📗 Table of Contents
 
@@ -16,8 +18,9 @@
 - [📝 License](#license)
 
 
-# 📖 School Library <a name="about-project"></a>
 
+
+# 📖 School Library <a name="about-project"></a>
 
 **School library** is an application that manages a Library system with ruby classes: Person, a parent class and Student and Teacher, child classes that inherit from the Person class.
 
