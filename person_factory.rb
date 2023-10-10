@@ -1,5 +1,6 @@
-class ClassName
-    
+require_relative 'teacher'
+require_relative 'student'
+class PersonFactory
   def create_student()
     print 'Name: '
     name = gets.chomp
@@ -30,5 +31,4 @@ class ClassName
 
     Teacher.new(specialization: specialization, age: age, name: name)
   end
-
 end

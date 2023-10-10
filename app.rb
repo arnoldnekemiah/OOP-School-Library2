@@ -6,12 +6,18 @@ require_relative 'trimmer_decorator'
 require_relative 'rental'
 require_relative 'book'
 require_relative 'classroom'
+require_relative 'person_factory'
+require_relative 'book_loader'
+require_relative 'rental_manager'
 
 class App
   def initialize
     @people = []
     @books = []
     @rentals = []
+    @person_factory = PersonFactory.new
+    @book_loader = BooksLoader.new
+    @rental_manager = RentalManager.new
   end
 
   def list_books
@@ -38,11 +44,11 @@ class App
     type = gets.chomp.to_i
 
     if type == 1
-      student = create_student
+      student = @person_factory.create_student
       @people << student unless student.nil?
       puts "Student #{student.name} created."
     elsif type == 2
-      teacher = create_teacher
+      teacher = @person_factory.create_teacher
       @people << teacher unless teacher.nil?
       puts "Teacher #{teacher.name} created."
     else
@@ -50,39 +56,14 @@ class App
     end
   end
 
-  def create_rental
-    list_people
-    print 'Enter the ID of the person who is renting a book: '
-    person_id = gets.chomp.to_i
-    person = @people.find { |p| p.id == person_id }
+  def create_book
+    print 'Enter the title of the book: '
+    title = gets.chomp
+    print 'Enter the author of the book: '
+    author = gets.chomp
 
-    list_books
-    print 'Enter the ID of the book being rented: '
-    book_id = gets.chomp.to_i
-    book = @books.find { |b| b.id == book_id }
-
-    print 'Enter the rental date (YYYY-MM-DD): '
-    date = gets.chomp
-
-    rental = Rental.new(date, book, person)
-    @rentals << rental
-    puts "Rental created for #{person.name}: #{book.title} on #{date}."
-  end
-
-  def list_rentals_for_person
-    list_people
-    print 'Enter the ID of the person to list their rentals: '
-    person_id = gets.chomp.to_i
-    person = @people.find { |p| p.id == person_id }
-
-    puts "Rentals for #{person.name}:"
-    rentals = @rentals.select { |r| r.person == person }
-    if rentals.empty?
-      puts "No rentals found for #{person.name}."
-    else
-      rentals.each do |rental|
-        puts "#{rental.book.title} by #{rental.book.author}, rented on #{rental.date}"
-      end
-    end
+    book = Book.new(title, author)
+    @books << book
+    puts "Book '#{book.title}' by #{book.author} created."
   end
 end
