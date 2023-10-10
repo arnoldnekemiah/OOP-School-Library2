@@ -72,6 +72,10 @@ In order to run this project you need:
 - Twitter: [@twitterhandle](https://twitter.com/arnoldikonde)
 - LinkedIn: [LinkedIn](https://www.linkedin.com/in/arnoldnekemiah/)
 
+👤 **WILSAN**
+
+- GitHub: [@githubhandle](https://github.com/Wils-FOURR-speed)
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
