@@ -13,9 +13,9 @@ class Main
       choice = gets.chomp.to_i
 
       case choice
-      when 1..6
+      when 1..7
         execute_action(choice)
-      when 7
+      when 8
         exit_app
         break
       else
@@ -35,8 +35,9 @@ class Main
 
   def execute_action(choice)
     actions = [
-      -> { @app.list_books }, -> { @app.list_people }, -> { @app.create_person },
-      -> { @app.create_book }, -> { @app.create_rental }, -> { @app.list_rentals_for_person }
+      -> { @app.list_books }, -> { @app.list_people }, -> { @app.create_student },
+      -> { @app.create_teacher }, -> { @app.create_book }, -> { @app.create_rental },
+      -> { @app.list_rentals_for_person }
     ]
     actions[choice - 1].call
   end
@@ -52,11 +53,12 @@ class Main
     puts 'Options:'
     puts '1. List all books'
     puts '2. List all people'
-    puts '3. Create a person'
-    puts '4. Create a book'
-    puts '5. Create a rental'
-    puts '6. List rentals for a person'
-    puts '7. Quit'
+    puts '3. Create a student'
+    puts '4. Create a teacher'
+    puts '5. Create a book'
+    puts '6. Create a rental'
+    puts '7. List rentals for a person'
+    puts '8. Quit'
     print 'Enter your choice: '
   end
 
