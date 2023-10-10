@@ -1,4 +1,6 @@
 <a name="readme-top"></a>
+# 📖 University Library <a name="about-project"></a>
+  ![image](https://github.com/arnoldnekemiah/OOP-School-Library2/assets/42886828/426d2e3b-9002-4ca6-97ce-9722c380bf5a)
 
 # 📗 Table of Contents
 
@@ -16,8 +18,9 @@
 - [📝 License](#license)
 
 
-# 📖 School Library <a name="about-project"></a>
 
+
+# 📖 School Library <a name="about-project"></a>
 
 **School library** is an application that manages a Library system with ruby classes: Person, a parent class and Student and Teacher, child classes that inherit from the Person class.
 
@@ -72,6 +75,12 @@ In order to run this project you need:
 - Twitter: [@twitterhandle](https://twitter.com/arnoldikonde)
 - LinkedIn: [LinkedIn](https://www.linkedin.com/in/arnoldnekemiah/)
 
+👤 **WILSAN**
+
+- GitHub: [@githubhandle](https://github.com/Wils-FOURR-speed)
+- Twitter: [@twitterhandle](https://twitter.com/WFourrspeed)
+- LinkedIn: [LinkedIn](https://www.linkedin.com/in/nji-wilsan-ndenge-47b7a826a/)
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -87,7 +96,7 @@ In order to run this project you need:
 
 Contributions, issues, and feature requests are welcome!
 
-Feel free to check the [issues page](../../issues/).
+Feel free to check the [issues page](https://github.com/arnoldnekemiah/OOP-School-Library2/issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
