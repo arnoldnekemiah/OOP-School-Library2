@@ -28,7 +28,8 @@ class ManageData
     File.open('books.json', 'w') do |file|
       file.puts @books.map { |book|
         { 'title' => book.title,
-          'author' => book.author }
+          'author' => book.author
+          'rentals' => book.rentals }
       }.to_json
     end
   end
