@@ -18,6 +18,7 @@ class App
     @book_loader = BooksLoader.new
     @rental_manager = RentalManager.new
     @data_manager = ManageData.new
+    # load_data
   end
 
   def load_data
@@ -25,15 +26,6 @@ class App
     @books = @data_manager.books
     @people = @data_manager.people
     @rentals = @data_manager.rentals
-  end
-
-  def save_data
-    @data_manager.save_books
-    puts 'Book saved successfully.'
-    @data_manager.save_people
-    puts 'Person saved successfully.'
-    @data_manager.save_rentals
-    puts 'Rental saved successfully.'
   end
 
   def list_books
@@ -64,5 +56,16 @@ class App
     teacher = Teacher.create_teacher
     @people << teacher unless teacher.nil?
     puts "Teacher #{teacher.name} created."
+  end
+
+  def create_book
+    print 'Title: '
+    title = gets.chomp
+    print 'Author: '
+    author = gets.chomp
+
+    book = Book.new(title, author)
+    @books << book
+    puts "Book '#{title}' by #{author} created."
   end
 end

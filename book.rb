@@ -9,6 +9,7 @@ class Book
     @rentals = []
   end
 
+
   # has-many relationship with Rental
   def add_rental(rental)
     existing_rental = @rentals.find { |r| r.date == rental.date }

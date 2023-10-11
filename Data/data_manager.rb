@@ -21,14 +21,14 @@ class ManageData
     save_rentals
     puts 'Data Saved.'
   rescue StandardError => e
-    puts "An error occured while saving data: #{e.message}"
+    puts "An error occurred while saving data: #{e.message}"
   end
 
   def save_books
     File.open('books.json', 'w') do |file|
       file.puts @books.map { |book|
         { 'title' => book.title,
-          'author' => book.author
+          'author' => book.author,
           'rentals' => book.rentals }
       }.to_json
     end
@@ -50,6 +50,18 @@ class ManageData
     end
   end
 
+  def save_rentals
+    File.open('rentals.json', 'w') do |file|
+      file.puts @rentals.map { |rental|
+        {
+          'date' => rental.date,
+          'book' => rental.book,
+          'person' => rental.person
+        }
+      }.to_json
+    end
+  end
+
   def specialization_check(person)
     if person.instance_of?(Teacher)
       person.specialization
@@ -57,43 +69,44 @@ class ManageData
       'No specialization'
     end
   end
-end
-
-def save_rentals
-  File.open('rentals.json', 'w') do |file|
-    file.puts @rentals.map { |rental|
-      { 'date' => rental.date,
-        'book' => rental.book,
-        'person' => rental.person }
-    }.to_json
-  end
-end
 
   private
 
-def load_books
-  return unless File.exist?('books.json')
+  def load_books
+    return unless File.exist?('books.json')
 
-  json_str = File.read('books.json')
-  @books = JSON.parse(json_str).map do |book_data|
-    Book.new(book_data['title'], book_data['author'])
-  end
-end
-
-def load_people(data)
-  data.each do |person_data|
-    if person_data['type'] == 'Student'
-      student = Student.new(person_data['age'], person_data['name'],
-                            parent_permission: person_data['parent_permission'])
-      student.instance_variable_set(:@id, person_data['id'])
-      @people << student
-    else
-      teacher = Teacher.new(person_data['specialization'], person_data['age'], person_data['name'])
-      teacher.instance_variable_set(:@id, person_data['id'])
-      @people << teacher
+    json_str = File.read('books.json')
+    @books = JSON.parse(json_str).map do |book_data|
+      Book.new(book_data['title'], book_data['author'])
     end
   end
-  @people
-end
 
-def load_rentals; end
+  def load_people(data)
+    data.each do |person_data|
+      if person_data['type'] == 'Student'
+        student = Student.new(person_data['age'], person_data['name'],
+                              parent_permission: person_data['parent_permission'])
+        student.instance_variable_set(:@id, person_data['id'])
+        @people << student
+      else
+        teacher = Teacher.new(person_data['specialization'], person_data['age'], person_data['name'])
+        teacher.instance_variable_set(:@id, person_data['id'])
+        @people << teacher
+      end
+    end
+    @people
+  end
+
+  def load_rentals
+    return unless File.exist?('rentals.json')
+  
+    json_str = File.read('rentals.json')
+    @rentals = JSON.parse(json_str).map do |rental_data|
+      book = @books.find { |b| b.id == rental_data['book'] }
+      person = @people.find { |p| p.id == rental_data['person'] }
+  
+      Rental.new(rental_data['date'], book, person)
+    end
+  end
+  
+end

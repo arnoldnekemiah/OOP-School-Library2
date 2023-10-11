@@ -1,4 +1,5 @@
 require_relative 'app'
+require_relative 'Data/data_manager'
 
 class Main
   def initialize(app)
@@ -42,7 +43,13 @@ class Main
     actions[choice - 1].call
   end
 
+  def save_data
+    @app.data_manager.save_data
+  end
+  
+
   def exit_app
+    save_data
     puts '************************************************************'
     puts 'Exiting the app. Goodbye!'
     puts '************************************************************'
