@@ -47,7 +47,24 @@ class Main
   end
 
   def save_data
-    @app.save_data # Pass the responsibility of saving data to the App instance.
+    # Load existing data from JSON files
+    existing_people = PeopleLoader.load || []
+    existing_books = BooksLoader.load || []
+    existing_rentals = RentalsLoader.load || []
+
+    puts "Existing People: #{existing_people.inspect}"
+    puts "Existing Books: #{existing_books.inspect}"
+    puts "Existing Rentals: #{existing_rentals.inspect}"
+
+    # Update the existing data with the current app data
+    existing_people.replace(@app.people)
+    existing_books.replace(@app.books)
+    existing_rentals.replace(@app.rentals)
+
+    # Write the updated data back to the JSON files
+    File.write('people.json', existing_people.to_json)
+    File.write('books.json', existing_books.to_json)
+    File.write('rentals.json', existing_rentals.to_json)
   end
 
   def display_menu
@@ -71,7 +88,7 @@ class Main
   end
 
   def exit_app
-    save_data # Save data through the App instance.
+    save_data
     puts '************************************************************'
     puts 'Exiting the app. Goodbye!'
     puts '************************************************************'
@@ -87,7 +104,6 @@ class Main
     puts '************************************************************'
   end
 end
-
 
 puts 'Welcome to my school library!'
 main = Main.new(App.new)
