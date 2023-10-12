@@ -7,7 +7,7 @@ class Teacher < Person
   def initialize(name: 'Unknown', age: 0, specialization: 'Unknown')
     super(name: name, age: age)
     @specialization = specialization
-  end 
+  end
 
   def self.create_teacher
     print 'Name: '
