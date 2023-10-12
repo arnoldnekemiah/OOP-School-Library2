@@ -16,6 +16,12 @@ class BooksLoader
     end
   end
 
+  #################
+  def self.save(books)
+    File.write('books.json', books.to_json)
+  end
+
+  ###################
   def self.create_book(data)
     title = data['title']
     author = data['author']
