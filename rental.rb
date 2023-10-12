@@ -1,21 +1,13 @@
 class Rental
-  attr_accessor :date
-  attr_reader :person, :book
+  attr_accessor :date, :book, :person
 
   def initialize(date, book, person)
     @date = date
+
     @book = book
+    book.rentals << self
+
     @person = person
-
-    # Use the add_rental method to establish the relationship
-    book.add_rental(self)
-    person.add_rental(self)
-  end
-
-  # Add a class-level array to store all rentals
-  @all = []
-
-  class << self
-    attr_reader :all
+    person.rentals << self
   end
 end
