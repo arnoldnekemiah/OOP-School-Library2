@@ -51,21 +51,23 @@ class Main
     existing_people = PeopleLoader.load || []
     existing_books = BooksLoader.load || []
     existing_rentals = RentalsLoader.load || []
-
+  
     puts "Existing People: #{existing_people.inspect}"
     puts "Existing Books: #{existing_books.inspect}"
     puts "Existing Rentals: #{existing_rentals.inspect}"
-
+  
     # Update the existing data with the current app data
     existing_people.replace(@app.people)
     existing_books.replace(@app.books)
     existing_rentals.replace(@app.rentals)
-
+  
     # Write the updated data back to the JSON files
     File.write('people.json', existing_people.to_json)
     File.write('books.json', existing_books.to_json)
     File.write('rentals.json', existing_rentals.to_json)
   end
+  
+  
 
   def display_menu
     puts '-----------------------------------------------'

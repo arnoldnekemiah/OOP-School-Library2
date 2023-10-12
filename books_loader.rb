@@ -3,15 +3,22 @@ require 'json'
 class BooksLoader
   def self.load
     if File.exist?('books.json')
-      book_data = JSON.parse(File.read('books.json'))
-      book_data.map { |data| Book.from_json(data) }
+      begin
+        JSON.parse(File.read('books.json')).map do |book_data|
+          create_book(book_data)
+        end
+      rescue JSON::ParserError => e
+        puts "Error parsing books.json: #{e.message}. Using an empty array."
+        []
+      end
     else
       []
     end
   end
 
-  def self.save(books)
-    # Serialize the books to JSON using the to_json method
-    File.write('books.json', books.map(&:to_json).to_json)
+  def self.create_book(data)
+    title = data['title']
+    author = data['author']
+    Book.new(title, author)
   end
 end
