@@ -29,10 +29,15 @@ class App
     puts '************************************************************'
     puts "List of Books (#{@books.length}):"
     @books.each do |book|
-      puts "#{book.id} - #{book.title} by #{book.author}"
+      if book.is_a?(Book)
+        puts "#{book.id} - #{book.title} by #{book.author}"
+      else
+        puts "Invalid book object: #{book}"
+      end
     end
     puts '************************************************************'
   end
+  
 
   def list_people
     puts '************************************************************'
