@@ -1,5 +1,8 @@
 require_relative 'app'
-require_relative 'Data/data_manager'
+require_relative 'rental_manager'
+require_relative 'people_loader'
+require_relative 'books_loader'   
+require_relative 'rentals_loader' 
 
 class Main
   def initialize(app)
@@ -44,16 +47,28 @@ class Main
   end
 
   def save_data
-    @app.data_manager.save_data
+    # Load existing data from JSON files
+    existing_people = PeopleLoader.load || []
+    existing_books = BooksLoader.load || []
+    existing_rentals = RentalsLoader.load || []
+  
+    puts "Existing People: #{existing_people.inspect}"
+    puts "Existing Books: #{existing_books.inspect}"
+    puts "Existing Rentals: #{existing_rentals.inspect}"
+  
+    # Update the existing data with the current app data
+    existing_people.replace(@app.people)
+    existing_books.replace(@app.books)
+    existing_rentals.replace(@app.rentals)
+  
+    # Write the updated data back to the JSON files
+    File.write('people.json', existing_people.to_json)
+    File.write('books.json', existing_books.to_json)
+    File.write('rentals.json', existing_rentals.to_json)
   end
   
 
-  def exit_app
-    save_data
-    puts '************************************************************'
-    puts 'Exiting the app. Goodbye!'
-    puts '************************************************************'
-  end
+  
 
   def display_menu
     puts '-----------------------------------------------'
@@ -73,6 +88,19 @@ class Main
     puts '************************************************************'
     puts 'Invalid choice. Please try again.'
     puts '************************************************************'
+  end
+
+  def exit_app
+    begin
+      save_data
+      puts '************************************************************'
+      puts 'Exiting the app. Goodbye!'
+      puts '************************************************************'
+    rescue StandardError => e
+      puts '************************************************************'
+      puts "An error occurred while saving data: #{e.message}"
+      puts '************************************************************'
+    end
   end
 
   def display_error_message(error)

@@ -8,24 +8,20 @@ require_relative 'book'
 require_relative 'classroom'
 require_relative 'book_loader'
 require_relative 'rental_manager'
-require_relative 'Data/data_manager'
+require_relative 'people_loader'
+require_relative 'books_loader'   
+require_relative 'rentals_loader' 
 
 class App
+  attr_reader :people, :books, :rentals 
   def initialize
-    @people = []
-    @books = []
-    @rentals = []
+  @people = PeopleLoader.load || []
+  @books = BooksLoader.load || []
+  @rentals = RentalsLoader.load || []
     @book_loader = BooksLoader.new
     @rental_manager = RentalManager.new
-    @data_manager = ManageData.new
-    # load_data
-  end
 
-  def load_data
-    @data_manager.load_data
-    @books = @data_manager.books
-    @people = @data_manager.people
-    @rentals = @data_manager.rentals
+    create_missing_data_files
   end
 
   def list_books
@@ -46,11 +42,17 @@ class App
     puts '************************************************************'
   end
 
+
   def create_student
     student = Student.create_student
-    @people << student unless student.nil?
-    puts "Student #{student.name} created."
+    if student
+      @people << student
+      puts "Student #{student.name} created."
+    else
+      puts "Failed to create a student."
+    end
   end
+  
 
   def create_teacher
     teacher = Teacher.create_teacher
@@ -59,13 +61,35 @@ class App
   end
 
   def create_book
-    print 'Title: '
+    print 'Enter the title of the book: '
     title = gets.chomp
-    print 'Author: '
+    print 'Enter the author of the book: '
     author = gets.chomp
 
     book = Book.new(title, author)
     @books << book
-    puts "Book '#{title}' by #{author} created."
+    puts "Book '#{book.title}' by #{book.author} created."
   end
+
+  def create_rental
+    @rental_manager.create_rental(@people, @books, @rentals)
+  end
+
+  def list_rentals_for_person
+    @rental_manager.list_rentals_for_person(@people)
+  end
+
+  def create_missing_data_files
+    unless File.exist?('people.json')
+      File.write('people.json', [].to_json)
+    end
+  
+    unless File.exist?('books.json')
+      File.write('books.json', [].to_json)
+    end
+  
+    unless File.exist?('rentals.json')
+      File.write('rentals.json', [].to_json)
+    end
+end
 end
