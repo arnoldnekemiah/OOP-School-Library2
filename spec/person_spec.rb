@@ -1,4 +1,4 @@
-require_relative '../person'
+require_relative 'spec_helper'
 
 describe Person do
   context 'When passing a name' do

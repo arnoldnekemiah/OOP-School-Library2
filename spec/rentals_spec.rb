@@ -1,6 +1,5 @@
-require_relative '../person'
-require_relative '../book'
-require_relative '../rental'
+require_relative 'spec_helper'
+
 describe Rental do
   context 'When providing a book and a person' do
     book = Book.new('East of Eden', 'John Steinbeck')

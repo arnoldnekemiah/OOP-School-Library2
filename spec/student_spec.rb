@@ -1,22 +1,50 @@
-require_relative '../student'
-require_relative '../classroom'
-require_relative '../person'
+require_relative 'spec_helper'
+
 describe Student do
-  context 'When providing student information' do
-    classroom = Classroom.new
-    person = Student.new(id: nil, classroom: classroom, age: 22, name: 'lisa', parent_permission: true)
-    person_two = Student.new(id: nil, classroom: classroom, age: 16, name: 'john', parent_permission: false)
-    it 'creates a student person' do
-      expect(person.name).to eq 'lisa'
+  let(:classroom) { Classroom.new('Maths') }
+  let(:student) { Student.new(age: 16, classroom: classroom, name: 'Alice', parent_permission: true) }
+
+  context 'when creating a new student' do
+    it 'should have a name' do
+      expect(student.name).to eq('Alice')
     end
-    it 'creates a student without permission' do
-      expect(person_two.can_use_services?).to eq false
+
+    it 'should have an age' do
+      expect(student.age).to eq(16)
     end
-    it 'adds student to classroom' do
-      expect(person.classroom).to eq classroom
+
+    it 'should have parent permission' do
+      expect(student.parent_permission).to be(true)
     end
-    it 'should print custom message' do
-      expect(person.play_soccer).to eq "¯\(ツ)/¯"
+
+    it 'should belong to a classroom' do
+      expect(student.classroom).to eq(classroom)
+    end
+  end
+
+  context 'when changing the classroom of a student' do
+    let(:new_classroom) { Classroom.new('Science') }
+
+    it 'should set the new classroom for the student' do
+      student.classroom = new_classroom
+      expect(student.classroom).to eq(new_classroom)
+    end
+
+    it 'should add the student to the new classroom' do
+      student.classroom = new_classroom
+      expect(new_classroom.students).to include(student)
+    end
+
+    it 'should remove the student from the old classroom' do
+      old_classroom = student.classroom
+      student.classroom = new_classroom
+      expect(old_classroom.students).not_to include(student)
+    end
+  end
+
+  context 'when a student plays hooky' do
+    it 'should return a message' do
+      expect(student.play_hooky).to eq('¯(ツ)/¯')
     end
   end
 end
